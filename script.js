@@ -8,19 +8,15 @@ const pricingTabs = document.querySelectorAll('.pricing-tab');
 const pricingPanels = document.querySelectorAll('.pricing-panel');
 
 // ===== Navbar Scroll Effect =====
-let lastScroll = 0;
-
 window.addEventListener('scroll', () => {
   const currentScroll = window.scrollY;
 
-  // Add/remove scrolled class
   if (currentScroll > 50) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');
   }
 
-  // Back to top button
   if (currentScroll > 500) {
     backToTop.classList.add('visible');
   } else {
@@ -43,8 +39,6 @@ window.addEventListener('scroll', () => {
       });
     }
   });
-
-  lastScroll = currentScroll;
 });
 
 // ===== Mobile Menu Toggle =====
@@ -54,7 +48,6 @@ navToggle.addEventListener('click', () => {
   document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
 });
 
-// Close menu on link click
 navLinks.forEach(link => {
   link.addEventListener('click', () => {
     navToggle.classList.remove('active');
@@ -71,9 +64,7 @@ pricingTabs.forEach(tab => {
     pricingTabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
 
-    pricingPanels.forEach(panel => {
-      panel.classList.remove('active');
-    });
+    pricingPanels.forEach(panel => panel.classList.remove('active'));
     document.getElementById('panel-' + target).classList.add('active');
   });
 });
@@ -92,9 +83,7 @@ const revealObserver = new IntersectionObserver((entries) => {
   rootMargin: '0px 0px -50px 0px'
 });
 
-revealElements.forEach(el => {
-  revealObserver.observe(el);
-});
+revealElements.forEach(el => revealObserver.observe(el));
 
 // ===== Counter Animation =====
 const counters = document.querySelectorAll('.stat-number');
@@ -127,15 +116,18 @@ const animateCounters = () => {
 
 const statsObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      animateCounters();
-    }
+    if (entry.isIntersecting) animateCounters();
   });
 }, { threshold: 0.5 });
 
 const heroStats = document.querySelector('.hero-stats');
-if (heroStats) {
-  statsObserver.observe(heroStats);
+if (heroStats) statsObserver.observe(heroStats);
+
+// ===== Gallery Strip - Duplicate images for seamless loop =====
+const galleryScroll = document.querySelector('.gallery-scroll');
+if (galleryScroll) {
+  const images = galleryScroll.innerHTML;
+  galleryScroll.innerHTML = images + images;
 }
 
 // ===== Form Handling =====
@@ -147,7 +139,6 @@ if (quoteForm) {
     const formData = new FormData(quoteForm);
     const data = Object.fromEntries(formData);
 
-    // Build mailto body
     const subject = encodeURIComponent('Quote Request - ' + (data.service || 'General'));
     const body = encodeURIComponent(
       `Name: ${data.firstName} ${data.lastName}\n` +
@@ -160,11 +151,10 @@ if (quoteForm) {
 
     window.location.href = `mailto:shredshedrepairs@gmail.com?subject=${subject}&body=${body}`;
 
-    // Show success state
     const btn = quoteForm.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-check"></i> Opening Email Client...';
-    btn.style.background = '#22c55e';
+    btn.style.background = '#333';
 
     setTimeout(() => {
       btn.innerHTML = originalText;
@@ -184,7 +174,6 @@ window.addEventListener('scroll', () => {
 
 // ===== Trigger initial reveals for elements already in viewport =====
 window.addEventListener('load', () => {
-  // Small delay to let the page settle
   setTimeout(() => {
     revealElements.forEach(el => {
       const rect = el.getBoundingClientRect();
