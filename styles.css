@@ -190,13 +190,16 @@ ul { list-style: none; }
 
 .hero-logo {
   margin-bottom: 32px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 16px 28px;
+  border-radius: 14px;
 }
 
 .hero-logo img {
   height: 120px;
   width: auto;
   margin: 0 auto;
-  filter: brightness(0) invert(1);
 }
 
 .hero-title {
